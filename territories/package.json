@@ -1,0 +1,19 @@
+{
+  "name": "territories",
+  "version": "1.0.0",
+  "description": "territories for group ministry our congregation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexandr Danchenko <danchenko.biz@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}
