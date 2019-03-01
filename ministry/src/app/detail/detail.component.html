@@ -1,0 +1,61 @@
+<div class="terDetail">
+  <div class="terDetail__info clearfix">
+    <p *ngIf='!terDetaiNameEdit'>{{this.data.territory[this.data.terrIndex].name}}</p>
+    <p  *ngIf='terDetaiNameEdit'>
+      <input [(ngModel)]='this.data.territory[this.data.terrIndex].name' type="text" name="" value="">
+      <button (click)='terDetaiNameEdit=false' class="btn btn-success myButton" type="button" name="button">Применить</button>
+    </p>
+    <button (click)='terDetaiNameEdit=true' class='btn btn-primary myButton' type="button" name="button">Изменить</button>
+  </div>
+  <div class="terDetail__info clearfix">
+    <p *ngIf='!terDetaiOwnEdit'>{{this.data.territory[this.data.terrIndex].own}}</p>
+    <p *ngIf='terDetaiOwnEdit'>
+      <input [(ngModel)]='this.data.territory[this.data.terrIndex].own' type="text" name="" value="">
+      <button (click)='terDetaiOwnEdit=false' class="btn btn-success myButton" type="button" name="button">Применить</button>
+    </p>
+    <button (click)='terDetaiOwnEdit=true' class='btn btn-primary myButton' type="button" name="button">Изменить</button>
+  </div>
+  <div class="btnContain">
+    <button (click)='apWin=true' class='btn btn-primary myButton' type="button" name="button">Добавить</button>
+    <button (click)='sort=true' class='btn btn-primary myButton' type="button" name="button">Упорядочить</button>
+    <button [disabled] = '!showDelButton' (click)="data.deleteAppart(arrID); this.arrID = []" type="button" class="btn btn-danger myButton" >Удалить</button>
+    <button (click)='showChecked()' type="button" class="btn btn-primary myButton">{{selectOrReady}}</button>
+  </div>
+
+  <table *ngIf='data.territory[data.terrIndex].appartaments' class="terDetail__apart">
+    <tr *ngFor='let floor of data.territory[data.terrIndex].appartaments'>
+      <td #indicator
+      (click)='folloving(indicator.textContent)'
+      *ngFor="let appart of floor; let id = data.territory[data.terrIndex].appartaments.index">{{appart.num}}
+        <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(id)>
+    </td>
+    </tr>
+  </table>
+
+  <!-- add appartaments dialog -->
+  <div *ngIf='apWin' class="addAppart">
+    <p>Добавить квартиры</p>
+    <span>с </span>
+    <input #firstAppartNum type="text" name="" value="">
+    <span> по </span>
+    <input #lastAppartNum type="text" name="" value="">
+    <div class="btnContain">
+      <button (click)="getAppartArray(firstAppartNum.value, lastAppartNum.value)" (click)='apWin=false' class="btn btn-success myButton" type="button" name="button">Добавить</button>
+      <button (click)='apWin=false' class="btn btn-danger myButton" type="button" name="button">Отмена</button>
+    </div>
+  </div>
+
+  <!-- sorting dialog -->
+
+  <div *ngIf='sort' class="addAppart">
+    <p>Сколько квартир на этаже?</p>
+    <input #floorCapacity type="text" name="" value="">
+    <div class="btnContain">
+      <button (click) = 'data.resorting(+floorCapacity.value)' (click)='sort=false' class="btn btn-success myButton" type="button" name="button">Упорядочить</button>
+      <button (click)='sort=false' class="btn btn-danger myButton" type="button" name="button">Отмена</button>
+    </div>
+  </div>
+
+  <div class="btnContain clearBoth">
+    <button (click)='goBack()' class="btn btn-primary myButton" type="button" name="button">Назад</button>
+  </div>

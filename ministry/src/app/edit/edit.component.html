@@ -1,0 +1,22 @@
+<div class="apartEdit">
+  <div class="btnContain">
+    <select [(ngModel)]='sex' class="sex" name="Пол">
+      <option value="" disabled selected>Выберите пол</option>
+      <option value="Мужчина">мужчина</option>
+      <option value="Женщина">женщина</option>
+    </select>
+    <select [(ngModel)]='age' class="age" name="Возраст">
+      <option value="" disabled selected>Выберите возраст</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+      <option value="25">25</option>
+    </select>
+  </div>
+  <textarea [(ngModel)]='description' class="apartEdit__info">{{sex}}, {{age}}</textarea>
+  <button (click)='getInfo()' class="btn btn-primary myButton" type="button" name="button">Добавить</button>
+  <div class="btnContain clearBoth">
+    <button (click)='goBack()' class="btn btn-primary myButton" type="button" name="button">Назад</button>
+  </div>
+</div>

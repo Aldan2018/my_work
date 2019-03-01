@@ -1,0 +1,46 @@
+<header>
+  <h1>{{title}}</h1>
+</header>
+
+<!-- button block -->
+
+<div class="btnContain">
+  <button type="button" class="btn btn-info myButton sortBy">Сортировать &#10149;</button>
+  <button [disabled]='checked' (click)='converter = true' type="button" class="btn btn-primary myButton">Добавить участок</button>
+  <button [disabled] = '!showDelButton' (click)="data.deleteItem(arrID); this.arrID = []" type="button" class="btn btn-danger myButton" >Удалить</button>
+  <button (click)='showChecked()' type="button" class="btn btn-primary myButton">{{selectOrReady}}</button>
+</div>
+
+<!-- wrapper territories -->
+
+<ul *ngIf='data.territory' class="terContain">
+  <li class="terItem"
+      *ngFor="let terr of data.territory; let id = index"
+      (click)="folloving(id)"
+      class="terItem">
+    <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(id)>
+    <p class="terItem__name" #indicator>
+      {{terr.name}}
+    </p>
+    <p class="terItem__pct" class="terItem__pct">
+      {{terr.pct}}%
+    </p>
+    <p class="terItem__own">
+      {{terr.own}}
+    </p>
+  </li>
+</ul>
+
+<!-- modal window -->
+
+<div *ngIf='converter'>
+  <div class="modalAddTerritory">
+    <div class="modalAddTerritory__dialog">
+      <p>Название участка</p>
+      <input #nameInTmpl type="text" name="" value="" placeholder="Название участка">
+      <p class="modalAddTerritory__dialog_p-small">Например: пр. Юбилейный, 12, п. 1</p>
+      <button (click)="addAdress(nameInTmpl.value); nameInTmpl.value = ''" class="btn btn-success myButton" type="button" name="button">Добавить</button>
+      <button (click)='converter=false' class="btn btn-danger myButton" type="button" name="button">Готово</button>
+    </div>
+  </div>
+</div>

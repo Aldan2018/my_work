@@ -1,0 +1,17 @@
+<ul *ngIf='data.territory' class="terContain">
+  <li class="terItem"
+      *ngFor="let terr of data.territory; let id = index"
+      (click)="folloving(indicator.textContent)"
+      class="terItem">
+    <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(id)>
+    <p class="terItem__name" #indicator>
+      {{terr.name}}
+    </p>
+    <p class="terItem__pct" class="terItem__pct">
+      {{terr.pct}}%
+    </p>
+    <p class="terItem__own">
+      {{terr.own}}
+    </p>
+  </li>
+</ul>

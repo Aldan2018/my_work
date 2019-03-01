@@ -1,0 +1,53 @@
+@import '../../global';
+
+.terDetail {
+  background-color: $color-light;
+}
+
+.terDetail__info {
+  padding: 30px 30px 0 30px;
+  p {
+    height: 70px;
+    font-size: 2.5em;
+    line-height: 1.5em;
+    width: max-content;
+    float: left;
+  }
+}
+.terDetail__apart {
+  table {
+    border-collapse: separate;
+    border-spacing: 30px;
+  }
+  td {
+    width: 115px;
+    height: 100px;
+    border: 1px solid;
+    text-align: center;
+    font-size: 3em;
+  }
+}
+
+.myButton {
+  @extend %my_button;
+}
+
+.addAppart {
+  position: absolute;
+  left: 25vw;
+  top: 20%;
+  background-color: $color-main;
+  width: 50vw;
+  height: 20vw;
+  margin: auto;
+  text-align: center;
+   p, span {
+     font-size: 2.5em;
+     color: $color-light;
+   }
+    input {
+      width: 70px;
+      height: 45px;
+      font-size: 2.5em;
+    }
+}
