@@ -4,6 +4,7 @@
       <option value="" disabled selected>Выберите пол</option>
       <option value="Мужчина">мужчина</option>
       <option value="Женщина">женщина</option>
+      <option value="Ребенок">ребенок</option>
     </select>
     <select [(ngModel)]='age' class="age" name="Возраст">
       <option value="" disabled selected>Выберите возраст</option>
@@ -12,10 +13,28 @@
       <option value="15">15</option>
       <option value="20">20</option>
       <option value="25">25</option>
+      <option value="25">30</option>
+      <option value="25">35</option>
+      <option value="25">40</option>
+      <option value="25">45</option>
+      <option value="25">50</option>
+      <option value="25">55</option>
+      <option value="25">60</option>
+      <option value="25">65</option>
+      <option value="25">70</option>
+      <option value="25">75</option>
+      <option value="25">80</option>
+      <option value="25">85</option>
+      <option value="25">90</option>
     </select>
   </div>
-  <textarea [(ngModel)]='description' class="apartEdit__info">{{sex}}, {{age}}</textarea>
+  <textarea [(ngModel)]='description' class="apartEdit__info"></textarea>
   <button (click)='getInfo()' class="btn btn-primary myButton" type="button" name="button">Добавить</button>
+
+  <div *ngIf='converter' class="infoTenant">
+    <p *ngFor = 'let info of info'>{{this.info.description}}</p>
+  </div>
+
   <div class="btnContain clearBoth">
     <button (click)='goBack()' class="btn btn-primary myButton" type="button" name="button">Назад</button>
   </div>

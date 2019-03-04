@@ -22,12 +22,14 @@
     <button (click)='showChecked()' type="button" class="btn btn-primary myButton">{{selectOrReady}}</button>
   </div>
 
+  <!-- appartaments wrapper  -->
+
   <table *ngIf='data.territory[data.terrIndex].appartaments' class="terDetail__apart">
     <tr *ngFor='let floor of data.territory[data.terrIndex].appartaments'>
       <td #indicator
       (click)='folloving(indicator.textContent)'
-      *ngFor="let appart of floor; let id = data.territory[data.terrIndex].appartaments.index">{{appart.num}}
-        <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(id)>
+      *ngFor="let appart of floor">{{appart.num}}
+        <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(indicator.textContent)>
     </td>
     </tr>
   </table>

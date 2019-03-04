@@ -11,13 +11,21 @@ export class Appart {
     public num: number,
     public sex?: string,
     public age?: number,
-    public description?: string,
+    public description?,
     public color?: any) { }
-}
+};
+
+export class Descr {
+  constructor (
+    public data,
+    public sex,
+    public age,
+    public description) {}
+};
 
 export class Indexes {
   constructor(
     public terrIndex?:number,
     public appIndex?:number
   ) { }
-}
+};

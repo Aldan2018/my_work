@@ -22,6 +22,7 @@ export class DetailComponent implements OnInit {
   selectOrReady: string = 'Выбрать';
   showDelButton: boolean = false;
   arrID;
+  // indicator:number;
 
   constructor(private location: Location,
               private data: DataManagementService,
@@ -33,15 +34,21 @@ export class DetailComponent implements OnInit {
     this.data.getAppartArray(+firstAppartNum, +lastAppartNum);
   }
 
+//переход к описанию квартиры
   folloving(indicator):void {
-    this.data.appIndex = this.data.newAppartArray.findIndex(i => i.num == +indicator);
+    // this.indicator = +indicator;
+    //получение индекса квартиры
+    let merged = [].concat.apply([], this.data.territory[this.data.terrIndex].appartaments);
+    this.data.appIndex = merged.findIndex(i => i.num == indicator);
     this.data.getIndex();
+  //проверка, включен ли чекбокс
     if (this.checked == true) {
       return;
     }
-    this._rout.navigate(/edit);
+    this._rout.navigate(['/edit']);
   }
 
+// Переключение названий кнопок и активация/деактивация кнопки "Удалить"
   showChecked() {
     (this.checked == false) ? (this.checked = true) : (this.checked = false);
     (this.selectOrReady == 'Выбрать') ? (this.selectOrReady = 'Готово') : (this.selectOrReady = 'Выбрать');
@@ -49,6 +56,24 @@ export class DetailComponent implements OnInit {
       this.showDelButton = false;
     }
     this.arrID = [];
+  }
+
+  getDelIndex(id) {
+    let merged = [].concat.apply([], this.data.territory[this.data.terrIndex].appartaments); //объединение квартир по этажам в один массив
+    let indexApp = merged.findIndex(i => i.num == +id); //получение индекса квартыры в общем массиве квартир подъезда
+//проверка, есть ли уже эта квартира среди выбранных
+    let verificationIndex = this.arrID.indexOf(indexApp);
+    if (verificationIndex !== -1) {
+      this.arrID.splice(verificationIndex, 1)
+    } else {
+      this.arrID.push(indexApp);
+    };
+  // включение/выключение кнопки "Удалить"
+    if (this.arrID.length > 0) {
+      this.showDelButton = true
+    }  else {
+      this.showDelButton = false
+    }
   }
 
   goBack():void {

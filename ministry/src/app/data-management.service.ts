@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Injectable } from '@angular/core';
 import * as _ from "lodash";
-import { Terr, Appart, Indexes } from './territories';
+import { Terr, Appart, Descr, Indexes } from './territories';
 import { TerritoriesCongService }   from './territories-cong.service';
-// import { WrapperComponent }   from './wrapper/wrapper.component';
 import { DataSaveService } from './data-save.service';
 
 @Injectable({
@@ -20,6 +19,7 @@ export class DataManagementService {
   dataBase;
 
   newAppartArray:Appart[];
+  newDescript: Descr[];
 
   constructor(private terCongServ: TerritoriesCongService,
               private dataSave: DataSaveService) { }
@@ -38,13 +38,12 @@ getIndex():void {
     this.territory = this.dataBase.BASETERR;
     this.terrIndex = this.dataBase.BASEINDEX.terrIndex;
     this.appIndex = this.dataBase.BASEINDEX.appIndex;
-    console.log('this.territory - ', this.territory, 'this.terrIndex - ', this.terrIndex, 'this.appIndex - ', this.appIndex)
-
   // this.terCongServ.getTerrotories()
   //     .subscribe(territory => this.territory = territory);
     }
 
   createNewTerr(newTerrName):void {
+    //проверка на наличие участка с таким-же именем
     let counter:number = 0;
     if (this.territory.length !== 0) {
       for (let i=0; i<this.territory.length; i++) {
@@ -53,13 +52,13 @@ getIndex():void {
         }
       }
       if (counter == 0) {
-        this.newTerr = new Terr(newTerrName, 'не назначен', 0);
+        this.newTerr = new Terr(newTerrName, 'не назначен', 0, this.newAppartArray = []);
         this.pushNewTerr();
       } else {
         alert('Такой участок уже есть');
       }
     } else {
-      this.newTerr = new Terr(newTerrName, 'не назначен', 0);
+      this.newTerr = new Terr(newTerrName, 'не назначен', 0, this.newAppartArray = []); //работало без определения массива. Если поломается - убрать
       this.pushNewTerr();
     }
   }
@@ -74,20 +73,21 @@ getIndex():void {
 getAppartArray(firstAppartNum, lastAppartNum):void {
 
   let numOfAppart = lastAppartNum - firstAppartNum + 1;
-
-  if (!this.territory[this.terrIndex].appartaments) {
-    this.newAppartArray = [];
+  //проверка, есть ли уже квартиры в участке
+  if (this.territory[this.terrIndex].appartaments == undefined) {
+    this.territory[this.terrIndex].appartaments = [];
 
   for (let i=firstAppartNum; i<=lastAppartNum; i++) {
-    this.newAppartArray.push(new Appart(i));
+    this.territory[this.terrIndex].appartaments.push(new Appart(i));
   }
     } else {
+      this.territory[this.terrIndex].appartaments = [].concat.apply([], this.territory[this.terrIndex].appartaments);
       for (let i=firstAppartNum; i<=lastAppartNum; i++) {
-        this.newAppartArray.push(new Appart(i));
-        this.newAppartArray = _.sortBy(this.newAppartArray, 'num');
+        this.territory[this.terrIndex].appartaments.push(new Appart(i));
+        this.territory[this.terrIndex].appartaments = _.sortBy(this.territory[this.terrIndex].appartaments, 'num');
     }
   }
-  this.newAppartArray.reverse();
+  this.territory[this.terrIndex].appartaments.reverse();
   this.sortByFloor();
 
 }
@@ -95,10 +95,10 @@ getAppartArray(firstAppartNum, lastAppartNum):void {
 sortByFloor():void {
   let porch = [];
   let floorCapacity = 4;
-  for (let i=0; i<this.newAppartArray.length; i = i + floorCapacity) {
+  for (let i=0; i<this.territory[this.terrIndex].appartaments.length; i = i + floorCapacity) {
     let floor = [];
     while (floor.length<floorCapacity) {
-      let appartOnFloor = this.newAppartArray[i+floor.length];
+      let appartOnFloor = this.territory[this.terrIndex].appartaments[i+floor.length];
         if (!appartOnFloor) {
           break;
         }
@@ -132,13 +132,26 @@ resorting(floorCapacity) {
   this.dataSave.createJSON(this.territory);
 }
 
-addInfoAboutAppart(sex, age, description):void {
-  this.newAppartArray[this.appIndex].sex = sex;
-  this.newAppartArray[this.appIndex].age = age;
-  this.newAppartArray[this.appIndex].description = description;
-  this.dataSave.createJSON(this.territory);
+addInfoAboutAppart(data, sex, age, description):void {
+  let floorCapacity = this.territory[this.terrIndex].appartaments[0].length;
+  let tempAppartArray = [].concat.apply([], this.territory[this.terrIndex].appartaments);
+debugger;
+  if (!tempAppartArray[this.appIndex].description) {
+    this.newDescript = [];
+    tempAppartArray[this.appIndex].description = this.newDescript;
+    tempAppartArray[this.appIndex].description.push(new Descr(data, sex, age, description));
+  } else {
+    tempAppartArray[this.appIndex].description = this.newDescript;
+    tempAppartArray[this.appIndex].description.push(new Descr(data, sex, age, description));
+  }
+
+  // tempAppartArray[this.appIndex].description.push(this.newDescript);
+
+  this.resorting(floorCapacity);
+  // this.dataSave.createJSON(this.territory);
 }
 
+//удаление участков
 deleteItem(arrID) {
   arrID.sort(function(a, b) {return b-a});
   for (let i = 0; i<arrID.length; i++) {
@@ -147,8 +160,19 @@ deleteItem(arrID) {
   this.dataSave.createJSON(this.territory);
 }
 
-deleteAppart() {
-  
+//удаление квартир
+deleteAppart(arrID) {
+  let floorCapacity = this.territory[this.terrIndex].appartaments[0].length; //Установка количества квартир на этаже после удаления
+  let merged = [].concat.apply([], this.territory[this.terrIndex].appartaments); //объединение квартир по этажам в один массив
+  arrID.sort(function(a, b) {return b-a}); //сортировка массива индексов квартир на удаление в порядке убывания
+//удаление квартир
+  for (let i = 0; i<arrID.length; i++) {
+    merged.splice(arrID[i], 1);
+    // this.territory[this.terrIndex].appartaments.splice(arrID[i], 1);
+  }
+  this.territory[this.terrIndex].appartaments = merged;
+  this.resorting(floorCapacity);
+  // this.dataSave.createJSON(this.territory);
 }
 
 }
