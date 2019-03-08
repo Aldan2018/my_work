@@ -24,6 +24,14 @@ export class DataManagementService {
   constructor(private terCongServ: TerritoriesCongService,
               private dataSave: DataSaveService) { }
 
+// sorting
+sortingByAdres() {
+  this.territory = _.sortBy(this.territory, ['name', 'own']);
+}
+
+sortingByPct() {
+  this.territory = _.sortBy(this.territory, ['pct', 'own']);
+}
 // territory
 
 getIndex():void {
@@ -78,12 +86,12 @@ getAppartArray(firstAppartNum, lastAppartNum):void {
     this.territory[this.terrIndex].appartaments = [];
 
   for (let i=firstAppartNum; i<=lastAppartNum; i++) {
-    this.territory[this.terrIndex].appartaments.push(new Appart(i));
+    this.territory[this.terrIndex].appartaments.push(new Appart(i, '#c5c6c4'));
   }
     } else {
       this.territory[this.terrIndex].appartaments = [].concat.apply([], this.territory[this.terrIndex].appartaments);
       for (let i=firstAppartNum; i<=lastAppartNum; i++) {
-        this.territory[this.terrIndex].appartaments.push(new Appart(i));
+        this.territory[this.terrIndex].appartaments.push(new Appart(i, '#c5c6c4'));
         this.territory[this.terrIndex].appartaments = _.sortBy(this.territory[this.terrIndex].appartaments, 'num');
     }
   }
@@ -128,27 +136,41 @@ resorting(floorCapacity) {
     floor = _.sortBy(floor, 'num');
     porch.push(floor);
   }
+// рассчет степени обработки участка
+let counter = 0
+  for (i=0; i<merged.length; i++) {
+    if (merged[i].color != '#c5c6c4') {
+      counter++
+    }
+  }
+  let pct = Math.round((counter/merged.length)*100);
+  this.territory[this.terrIndex].pct = pct
+
   this.territory[this.terrIndex].appartaments = porch;
   this.dataSave.createJSON(this.territory);
 }
 
-addInfoAboutAppart(data, sex, age, description):void {
+addColorOfAppart(bgrnd) {
+    let floorCapacity = this.territory[this.terrIndex].appartaments[0].length;
+
+    let tempAppartArray = [].concat.apply([], this.territory[this.terrIndex].appartaments);
+    tempAppartArray[this.appIndex].color = bgrnd;
+
+      this.resorting(floorCapacity);
+}
+
+addInfoAboutAppart(date, description):void {
   let floorCapacity = this.territory[this.terrIndex].appartaments[0].length;
   let tempAppartArray = [].concat.apply([], this.territory[this.terrIndex].appartaments);
-debugger;
   if (!tempAppartArray[this.appIndex].description) {
     this.newDescript = [];
     tempAppartArray[this.appIndex].description = this.newDescript;
-    tempAppartArray[this.appIndex].description.push(new Descr(data, sex, age, description));
+    tempAppartArray[this.appIndex].description.push(new Descr(date, description));
   } else {
-    tempAppartArray[this.appIndex].description = this.newDescript;
-    tempAppartArray[this.appIndex].description.push(new Descr(data, sex, age, description));
+    tempAppartArray[this.appIndex].description.push(new Descr(date, description));
   }
 
-  // tempAppartArray[this.appIndex].description.push(this.newDescript);
-
   this.resorting(floorCapacity);
-  // this.dataSave.createJSON(this.territory);
 }
 
 //удаление участков
@@ -168,11 +190,21 @@ deleteAppart(arrID) {
 //удаление квартир
   for (let i = 0; i<arrID.length; i++) {
     merged.splice(arrID[i], 1);
-    // this.territory[this.terrIndex].appartaments.splice(arrID[i], 1);
   }
   this.territory[this.terrIndex].appartaments = merged;
   this.resorting(floorCapacity);
-  // this.dataSave.createJSON(this.territory);
+}
+
+getDate() {
+  let now = new Date();
+  let dd = now.getDate();
+  let mm = now.getMonth() + 1; //January is 0!
+  let yyyy = now.getFullYear();
+  let HH = now.getHours();
+  let MM = now.getMinutes()
+
+  let today = mm + '/' + dd + '/' + yyyy + '; ' + HH + ':' + MM;
+  return today;
 }
 
 }

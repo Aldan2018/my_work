@@ -7,6 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+// import { File } from '@ionic-native/file';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainWindowComponent } from './main-window/main-window.component';
@@ -30,6 +32,7 @@ import { DataSaveService } from './data-save.service';
     DataManagementService,
     DataSaveService,
     StatusBar,
+    // File,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

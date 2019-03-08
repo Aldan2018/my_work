@@ -22,29 +22,37 @@ $color-dark: #000000;
 
 .ion-page {
   justify-content: flex-start;
+  width: 100vw;
+  overflow: scroll;
 }
 
 ul, li {
   list-style: none;
 }
 
+table {
+  border-collapse: separate;
+  border-spacing: 5px;
+  margin: auto;
+}
+
 %my_input {
-  border-bottom: 1px solid $color-dark;
   border: none;
+  border-bottom: 1px solid $color-dark;
 }
 
 %my_button {
+  border-radius: 5px;
   float: right;
-  font-size: 1.3em;
-  height: 70px;
-  margin: 0 10px;
-  width: 200px;
+  font-size: 0.5em;
+  height: 7vw;
+  margin-left: 2vw;
+  width: 15vw;
 }
 
 .btnContain {
-  height: 100px;
-  width: 100%;
-  padding: 15px 30px;
+  height: 13vw;
+  padding: 10px;
 }
 
 .clearBoth {

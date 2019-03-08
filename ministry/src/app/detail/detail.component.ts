@@ -3,6 +3,8 @@ import { Terr } from '../territories';
 import { Location } from '@angular/common';
 import { Router }   from '@angular/router';
 import { DataManagementService } from '../data-management.service';
+import { DataSaveService } from '../data-save.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-detail',
@@ -18,14 +20,15 @@ export class DetailComponent implements OnInit {
   firstAppartNum: number;
   lastAppartNum: number;
 
+  infoConverter:boolean = false;
   checked: boolean = false;
   selectOrReady: string = 'Выбрать';
   showDelButton: boolean = false;
   arrID;
-  // indicator:number;
 
   constructor(private location: Location,
               private data: DataManagementService,
+              private dataSave: DataSaveService,
               private _rout: Router) { }
 
   ngOnInit() {this.data.getTerrotories()}
@@ -34,9 +37,9 @@ export class DetailComponent implements OnInit {
     this.data.getAppartArray(+firstAppartNum, +lastAppartNum);
   }
 
+
 //переход к описанию квартиры
   folloving(indicator):void {
-    // this.indicator = +indicator;
     //получение индекса квартиры
     let merged = [].concat.apply([], this.data.territory[this.data.terrIndex].appartaments);
     this.data.appIndex = merged.findIndex(i => i.num == indicator);
@@ -45,7 +48,24 @@ export class DetailComponent implements OnInit {
     if (this.checked == true) {
       return;
     }
-    this._rout.navigate(['/edit']);
+    this.infoConverter = true;
+  }
+
+  getBgrnd(e) {
+    let elem = e.currentTarget.children[0];
+    let bgrnd = window.getComputedStyle(elem).backgroundColor;
+    this.data.addColorOfAppart(bgrnd);
+
+    let answer = e.currentTarget.children[1].textContent;
+    if (answer == 'Повторное посещение') {
+      this._rout.navigate(['/edit'])
+    } else if (answer == 'Категорический отказ') {
+      this._rout.navigate(['/edit'])
+    } else {
+      this.infoConverter = false
+    }
+
+    this.infoConverter = false;
   }
 
 // Переключение названий кнопок и активация/деактивация кнопки "Удалить"

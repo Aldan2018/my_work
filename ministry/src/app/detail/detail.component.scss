@@ -5,26 +5,29 @@
 }
 
 .terDetail__info {
-  padding: 30px 30px 0 30px;
+  padding: 10px 10px 0 10px;
   p {
-    height: 70px;
-    font-size: 2.5em;
-    line-height: 1.5em;
-    width: max-content;
     float: left;
+    width: max-content;
+  }
+  input {
+    border: none;
+    box-shadow: 1px 1px 1px $color-main;
   }
 }
 .terDetail__apart {
-  table {
-    border-collapse: separate;
-    border-spacing: 30px;
-  }
   td {
-    width: 115px;
-    height: 100px;
+    border-radius: 5px;
     border: 1px solid;
+    height: 10vw;
     text-align: center;
-    font-size: 3em;
+    width: 10vw;
+    position: relative;
+      input {
+        left: -3px;
+        position: absolute;
+        top: -3px;
+      }
   }
 }
 
@@ -33,21 +36,70 @@
 }
 
 .addAppart {
-  position: absolute;
-  left: 25vw;
-  top: 20%;
   background-color: $color-main;
-  width: 50vw;
-  height: 20vw;
+  border-radius: 5px;
+  height: 25vw;
+  left: 25vw;
   margin: auto;
+  padding: 5px;
+  position: absolute;
   text-align: center;
+  top: 30%;
+  width: 50vw;
    p, span {
-     font-size: 2.5em;
      color: $color-light;
+     font-size: 0.8em;
    }
     input {
-      width: 70px;
-      height: 45px;
-      font-size: 2.5em;
+      font-size: 0.8em;
+      height: 5vw;
+      width: 10vw;
     }
+}
+
+.addBgrnd {
+  background-color: transparentize($color-main, 0.2);
+  height: 100%;
+  position: absolute;
+  width: 100vw;
+    table {
+      background-color: $color-main;
+      border-radius: 5px;
+      box-shadow: 20px 20px 37px #4a6da7;
+      color: $color-light;
+      margin: 150px auto;
+
+    }
+}
+
+%sample {
+  border: 1px solid $color-dark;
+  border-radius: 5px;
+  height: 10vw;
+  width: 10vw;
+}
+
+.nd {
+  @extend %sample;
+  background-color: #c5c6c4;
+}
+
+.ps {
+  @extend %sample;
+  background-color: #36c427;
+}
+
+.ndf {
+  @extend %sample;
+  background-color: #516ac6;
+}
+
+.no {
+  @extend %sample;
+  background-color: #f4bc42;
+}
+
+.categorical {
+  @extend %sample;
+  background-color: #f44245;
 }

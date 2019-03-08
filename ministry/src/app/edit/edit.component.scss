@@ -1,25 +1,46 @@
 @import '../../global';
 
 .apartEdit {
+  padding: 10px;
     textarea {
-      height: 300px;
-      width: 90%;
+      box-shadow: 3px 3px 10px $color-main;
+      border: none;
       display: block;
-      margin: 30px auto;
-      font-size: 2em;
+      font-size: 1em;
+      height: 40vw;
+      margin: 5px auto;
+      width: 94%;
     }
 }
 
 .sex {
-  height: 70px;
-  width: 300px;
-  font-size: 1.5em;
+  font-size: 1em;
+  height: 10vw;
+  width: 30vw;
 }
 .age {
-  height: 70px;
-  width: 100px;
-  font-size: 1.5em;
+  font-size: 1em;
+  height: 10vw;
+  width: 15vw;
 }
+
+.infoTenant {
+  background-color: lighten($color-main, 45%);
+  border-radius: 5px;
+  height: 100vw;
+  margin: 10px;
+  padding: 10px;
+}
+
+  .infoTenant__item {
+    border-radius: 2px;
+    border: 1px solid $color-main;
+    margin-bottom: 3px;
+  }
+  .infoTenant__date {
+    color: lighten($color-dark, 50%);
+    font-size: 0.5em;
+  }
 
 .myButton {
   @extend %my_button;

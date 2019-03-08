@@ -3,7 +3,7 @@
     <p *ngIf='!terDetaiNameEdit'>{{this.data.territory[this.data.terrIndex].name}}</p>
     <p  *ngIf='terDetaiNameEdit'>
       <input [(ngModel)]='this.data.territory[this.data.terrIndex].name' type="text" name="" value="">
-      <button (click)='terDetaiNameEdit=false' class="btn btn-success myButton" type="button" name="button">Применить</button>
+      <button (click)="this.dataSave.createJSON(this.data.territory); terDetaiNameEdit=false" class="btn btn-outline-success myButton" type="button" name="button">Применить</button>
     </p>
     <button (click)='terDetaiNameEdit=true' class='btn btn-primary myButton' type="button" name="button">Изменить</button>
   </div>
@@ -11,7 +11,7 @@
     <p *ngIf='!terDetaiOwnEdit'>{{this.data.territory[this.data.terrIndex].own}}</p>
     <p *ngIf='terDetaiOwnEdit'>
       <input [(ngModel)]='this.data.territory[this.data.terrIndex].own' type="text" name="" value="">
-      <button (click)='terDetaiOwnEdit=false' class="btn btn-success myButton" type="button" name="button">Применить</button>
+      <button (click)="this.dataSave.createJSON(this.data.territory); terDetaiOwnEdit=false" class="btn btn-outline-success myButton" type="button" name="button">Применить</button>
     </p>
     <button (click)='terDetaiOwnEdit=true' class='btn btn-primary myButton' type="button" name="button">Изменить</button>
   </div>
@@ -21,6 +21,7 @@
     <button [disabled] = '!showDelButton' (click)="data.deleteAppart(arrID); this.arrID = []" type="button" class="btn btn-danger myButton" >Удалить</button>
     <button (click)='showChecked()' type="button" class="btn btn-primary myButton">{{selectOrReady}}</button>
   </div>
+</div>
 
   <!-- appartaments wrapper  -->
 
@@ -28,7 +29,8 @@
     <tr *ngFor='let floor of data.territory[data.terrIndex].appartaments'>
       <td #indicator
       (click)='folloving(indicator.textContent)'
-      *ngFor="let appart of floor">{{appart.num}}
+      *ngFor="let appart of floor"
+      [ngStyle]="{'background-color': appart.color}">{{appart.num}}
         <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(indicator.textContent)>
     </td>
     </tr>
@@ -58,6 +60,31 @@
     </div>
   </div>
 
-  <div class="btnContain clearBoth">
+    <div (click)='infoConverter = false' *ngIf='infoConverter' class="addBgrnd">
+      <table>
+        <tr (click)='getBgrnd($event)'>
+          <td class="bgrnd nd"></td>
+          <td class="description">Нет дома</td>
+        </tr>
+        <tr (click)='getBgrnd($event)'>
+          <td class="bgrnd ps"></td>
+          <td class="description">Повторное посещение</td>
+        </tr>
+        <tr (click)='getBgrnd($event)'>
+          <td class="bgrnd ndf"></td>
+          <td class="description">Нет домофона</td>
+        </tr>
+        <tr (click)='getBgrnd($event)'>
+          <td class="bgrnd no"></td>
+          <td class="description">Отказ</td>
+        </tr>
+        <tr (click)='getBgrnd($event)'>
+          <td class="bgrnd categorical"></td>
+          <td class="description">Категорический отказ</td>
+        </tr>
+      </table>
+    </div>
+
+  <!-- <div class="btnContain clearBoth">
     <button (click)='goBack()' class="btn btn-primary myButton" type="button" name="button">Назад</button>
-  </div>
+  </div> -->

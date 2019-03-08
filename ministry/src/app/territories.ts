@@ -9,17 +9,13 @@ export class Terr {
 export class Appart {
   constructor (
     public num: number,
-    public sex?: string,
-    public age?: number,
-    public description?,
-    public color?: any) { }
+    public color: any,
+    public description?) { }
 };
 
 export class Descr {
   constructor (
-    public data,
-    public sex,
-    public age,
+    public date,
     public description) {}
 };
 

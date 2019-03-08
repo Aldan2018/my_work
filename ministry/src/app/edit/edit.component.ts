@@ -10,10 +10,9 @@ import { DataManagementService } from '../data-management.service';
 export class EditComponent implements OnInit {
 
   description:string;
-  sex:string;
-  age:number;
   info:string;
   converter:boolean;
+  temporaryInfo:string;
   @Input() indicator;
 
   constructor(private location: Location,
@@ -30,8 +29,10 @@ export class EditComponent implements OnInit {
   }
 }
 
-  getInfo():void {
-    this.data.addInfoAboutAppart(5, this.sex, this.age, this.description);
+  getInfo(description):void {
+    let date = this.data.getDate();
+    this.data.addInfoAboutAppart(date, description);
+    this.showInfo();
   }
 
   goBack():void {

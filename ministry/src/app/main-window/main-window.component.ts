@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router }   from '@angular/router';
 import { Terr } from '../territories';
 import { DataManagementService } from '../data-management.service';
+import * as $ from 'jquery';
 
 
 @Component({

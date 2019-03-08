@@ -5,7 +5,16 @@
 <!-- button block -->
 
 <div class="btnContain">
-  <button type="button" class="btn btn-info myButton sortBy">Сортировать &#10149;</button>
+  <div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle sortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Сортировать по
+    </button>
+    <ul class="dropdown-menu">
+      <li (click)='this.data.sortingByAdres()' class="dropdown-item">адресу</li>
+      <li (click)='this.data.sortingByPct()' class="dropdown-item">степени обработки</li>
+    </ul>
+  </div>
+  <!-- <button (click) type="button" class="btn btn-info myButton sortBy">Сортировать &#10149;</button> -->
   <button [disabled]='checked' (click)='converter = true' type="button" class="btn btn-primary myButton">Добавить участок</button>
   <button [disabled] = '!showDelButton' (click)="data.deleteItem(arrID); this.arrID = []" type="button" class="btn btn-danger myButton" >Удалить</button>
   <button (click)='showChecked()' type="button" class="btn btn-primary myButton">{{selectOrReady}}</button>
