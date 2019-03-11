@@ -6,7 +6,16 @@
   <textarea #description class="apartEdit__info" placeholder="Информация о посещении"></textarea>
 
   <div class="btnContain">
-    <button (click)="getInfo(description.value); description.value=''" class="btn btn-primary myButton" type="button" name="button">Добавить</button>
+    <ion-button
+      (click)="getInfo(description.value); description.value=''"
+      class="btn btn-primary myButton" type="button"
+      color='success'
+      fill="solid"
+      name="button"
+      shape="round"
+      size="small">
+      <ion-icon name="add"></ion-icon>
+  </ion-button>
   </div>
 
   <ul *ngIf='converter' class="infoTenant">
@@ -15,7 +24,4 @@
       <p class = 'infoTenant__desc'>{{this.info.description}}</p>
     </li>
   </ul>
-  <!-- <div class="btnContain clearBoth">
-    <button (click)='goBack()' class="btn btn-primary myButton" type="button" name="button">Назад</button>
-  </div> -->
 </div>

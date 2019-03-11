@@ -137,10 +137,13 @@ resorting(floorCapacity) {
     porch.push(floor);
   }
 // рассчет степени обработки участка
-let counter = 0
+let counter = 0;
   for (i=0; i<merged.length; i++) {
-    if (merged[i].color != '#c5c6c4') {
-      counter++
+    let color:string = merged[i].color;
+    if (color !== '#c5c6c4' && color !== '#516ac6'){
+      if (color !== 'rgb(192, 192, 192)' && color !== 'rgb(65, 105, 225)') {
+        counter++
+      }
     }
   }
   let pct = Math.round((counter/merged.length)*100);

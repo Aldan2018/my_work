@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Location } from '@angular/common';
-import { DataManagementService } from '../data-management.service';
+import { Location }                 from '@angular/common';
+import { DataManagementService }    from '../data-management.service';
 
 @Component({
   selector: 'app-edit',

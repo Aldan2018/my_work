@@ -3,12 +3,13 @@
 .apartEdit {
   padding: 10px;
     textarea {
-      box-shadow: 3px 3px 10px $color-main;
       border: none;
+      box-shadow: 3px 3px 10px $color-main;
       display: block;
       font-size: 1em;
       height: 40vw;
       margin: 5px auto;
+      padding: 10px;
       width: 94%;
     }
 }

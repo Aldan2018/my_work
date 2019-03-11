@@ -23,7 +23,6 @@ $color-dark: #000000;
 .ion-page {
   justify-content: flex-start;
   width: 100vw;
-  overflow: scroll;
 }
 
 ul, li {
@@ -47,10 +46,11 @@ table {
   font-size: 0.5em;
   height: 7vw;
   margin-left: 2vw;
-  width: 15vw;
+  width: 10vw;
 }
 
 .btnContain {
+  position: relative;
   height: 13vw;
   padding: 10px;
 }

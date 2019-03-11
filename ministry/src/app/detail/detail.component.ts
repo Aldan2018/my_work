@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Terr } from '../territories';
-import { Location } from '@angular/common';
-import { Router }   from '@angular/router';
-import { DataManagementService } from '../data-management.service';
-import { DataSaveService } from '../data-save.service';
-import * as $ from 'jquery';
+import { Terr }                     from '../territories';
+import { Location }                 from '@angular/common';
+import { Router }                   from '@angular/router';
+import { DataManagementService }    from '../data-management.service';
+import { DataSaveService }          from '../data-save.service';
+import * as $                       from 'jquery';
 
 @Component({
   selector: 'app-detail',
@@ -14,17 +14,16 @@ import * as $ from 'jquery';
 export class DetailComponent implements OnInit {
 
   apWin:boolean;
+  arrID;
+  checked: boolean = false;
+  firstAppartNum: number;
+  infoConverter:boolean = false;
+  lastAppartNum: number;
+  // selectOrReady: boolean;
+  showDelButton: boolean = false;
   sort:boolean;
   terDetaiNameEdit:boolean;
   terDetaiOwnEdit:boolean;
-  firstAppartNum: number;
-  lastAppartNum: number;
-
-  infoConverter:boolean = false;
-  checked: boolean = false;
-  selectOrReady: string = 'Выбрать';
-  showDelButton: boolean = false;
-  arrID;
 
   constructor(private location: Location,
               private data: DataManagementService,
@@ -71,7 +70,6 @@ export class DetailComponent implements OnInit {
 // Переключение названий кнопок и активация/деактивация кнопки "Удалить"
   showChecked() {
     (this.checked == false) ? (this.checked = true) : (this.checked = false);
-    (this.selectOrReady == 'Выбрать') ? (this.selectOrReady = 'Готово') : (this.selectOrReady = 'Выбрать');
     if (this.showDelButton == true) {
       this.showDelButton = false;
     }

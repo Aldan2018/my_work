@@ -12,15 +12,15 @@ import * as $ from 'jquery';
 })
 export class MainWindowComponent implements OnInit {
 
-  title: string = 'Групповые участки собрания';
-  converter: boolean;
-  nameInTmpl: string;                            //Name of the territory that the user enters
-
-  checked: boolean = false;
-  selectOrReady: string = 'Выбрать';
-
-  showDelButton: boolean = false;
   arrID;
+  checked: boolean = false;
+  converter: boolean;
+  dropConv: boolean = false;
+  nameInTmpl: string;                            //Name of the territory that the user enters
+  selectOrReady:boolean;
+  showDelButton: boolean = false;
+  sizeBtn:string = 'small';
+  title: string = 'Групповые участки собрания';
 
   constructor(private data:DataManagementService,
               private _rout: Router) {  }
@@ -35,7 +35,6 @@ export class MainWindowComponent implements OnInit {
 
   showChecked() {
     (this.checked == false) ? (this.checked = true) : (this.checked = false);
-    (this.selectOrReady == 'Выбрать') ? (this.selectOrReady = 'Готово') : (this.selectOrReady = 'Выбрать');
     if (this.showDelButton == true) {
       this.showDelButton = false;
     }
@@ -64,6 +63,12 @@ export class MainWindowComponent implements OnInit {
       this.showDelButton = true
     }  else {
       this.showDelButton = false
+    }
+  }
+
+  terrArrayCheck() {
+    if (this.data.territory.length == 0) {
+      this.showDelButton = false;
     }
   }
 
