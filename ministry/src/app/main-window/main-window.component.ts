@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router }   from '@angular/router';
-import { Terr } from '../territories';
-import { DataManagementService } from '../data-management.service';
-import * as $ from 'jquery';
+import { Router }                   from '@angular/router';
+import { StatusBar }                from '@ionic-native/status-bar/ngx';
+import { Terr }                     from '../territories';
+import { DataManagementService }    from '../data-management.service';
+import * as $                       from 'jquery';
 
 
 @Component({
@@ -23,9 +24,16 @@ export class MainWindowComponent implements OnInit {
   title: string = 'Групповые участки собрания';
 
   constructor(private data:DataManagementService,
-              private _rout: Router) {  }
+              private _rout: Router,
+              private statusBar: StatusBar) {  }
 
-  ngOnInit() { this.data.getTerrotories(); }
+  ngOnInit() { this.data.getTerrotories();
+                // let status bar overlay webview
+                this.statusBar.overlaysWebView(true);
+
+                // set status bar to white
+                this.statusBar.backgroundColorByHexString('#ffffff'); }
+
 
 
   addAdress(nameInTmpl):void {
