@@ -1,0 +1,39 @@
+<!-- <ion-backdrop> -->
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        <h4>
+          Добавить участок
+        </h4>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content padding>
+
+    <!-- <p>Введите название участка</p> -->
+    <ion-input #nameInTmpl
+                type="text"
+                placeholder="Напишите здесь название участка">
+    </ion-input>
+    <p>например: пр. Юбилейный, 12, п. 1</p>
+    <div class="btnContain">
+      <!-- <ion-button (click)='dismiss()'
+                  color="danger"
+                  fill="solid"
+                  shape="round"
+                  type="button">
+        <ion-icon name="close" size='large'></ion-icon>
+      </ion-button> -->
+      <ion-button (click)="addAdress(nameInTmpl.value); nameInTmpl.value = ''"
+                  color="success"
+                  expand='block'
+                  fill="solid"
+                  shape="round"
+                  type="button">
+        <ion-icon name="add" size='large'></ion-icon>
+      </ion-button>
+    </div>
+
+  </ion-content>

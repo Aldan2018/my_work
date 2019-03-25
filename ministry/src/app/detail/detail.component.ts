@@ -4,7 +4,12 @@ import { Location }                 from '@angular/common';
 import { Router }                   from '@angular/router';
 import { DataManagementService }    from '../data-management.service';
 import { DataSaveService }          from '../data-save.service';
+
 import * as $                       from 'jquery';
+import { ModalController }          from '@ionic/angular';
+import { ModalAddAppartPage }       from '../modal-add-appart/modal-add-appart.page';
+import { ModalSortAppartPage }      from '../modal-sort-appart/modal-sort-appart.page';
+import { ModalAddInfoPage }         from '../modal-add-info/modal-add-info.page';
 
 @Component({
   selector: 'app-detail',
@@ -13,29 +18,20 @@ import * as $                       from 'jquery';
 })
 export class DetailComponent implements OnInit {
 
-  apWin:boolean;
   arrID;
   checked: boolean = false;
-  firstAppartNum: number;
-  infoConverter:boolean = false;
-  lastAppartNum: number;
-  // selectOrReady: boolean;
+  converter: boolean;
   showDelButton: boolean = false;
-  sort:boolean;
-  terDetaiNameEdit:boolean;
-  terDetaiOwnEdit:boolean;
+  terDetaiNameEdit:boolean = false;
+  terDetaiOwnEdit:boolean = false;
 
-  constructor(private location: Location,
+  constructor(public modalController: ModalController,
+              private location: Location,
               private data: DataManagementService,
               private dataSave: DataSaveService,
               private _rout: Router) { }
 
   ngOnInit() {this.data.getTerrotories()}
-
-  getAppartArray(firstAppartNum, lastAppartNum):void {
-    this.data.getAppartArray(+firstAppartNum, +lastAppartNum);
-  }
-
 
 //переход к описанию квартиры
   folloving(indicator):void {
@@ -47,24 +43,12 @@ export class DetailComponent implements OnInit {
     if (this.checked == true) {
       return;
     }
-    this.infoConverter = true;
-  }
-
-  getBgrnd(e) {
-    let elem = e.currentTarget.children[0];
-    let bgrnd = window.getComputedStyle(elem).backgroundColor;
-    this.data.addColorOfAppart(bgrnd);
-
-    let answer = e.currentTarget.children[1].textContent;
-    if (answer == 'Повторное посещение') {
-      this._rout.navigate(['/edit'])
-    } else if (answer == 'Категорический отказ') {
-      this._rout.navigate(['/edit'])
-    } else {
-      this.infoConverter = false
+    // проверка, есть ли записи о квартире
+    if (merged[this.data.appIndex].description !== undefined) {
+      this._rout.navigate(['/edit']);
+      return;
     }
-
-    this.infoConverter = false;
+    this.presentModalAddInfo();
   }
 
 // Переключение названий кнопок и активация/деактивация кнопки "Удалить"
@@ -94,9 +78,22 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  goBack():void {
-    this.location.back();
+  async presentModalAdd() {
+    const modalAdd = await this.modalController.create({component: ModalAddAppartPage,
+                                                        cssClass: 'modalAddAppart'});
+    return await modalAdd.present();
   }
 
+  async presentModalSort() {
+    const modalSort = await this.modalController.create({component: ModalSortAppartPage,
+                                                          cssClass: 'modalSortAppart'});
+    return await modalSort.present();
+  }
+
+  async presentModalAddInfo() {
+    const modalInfo = await this.modalController.create({component: ModalAddInfoPage,
+                                                          cssClass: 'modalAddInfo'});
+    return await modalInfo.present();
+  }
 
 }

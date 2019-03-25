@@ -20,10 +20,10 @@
   overflow: scroll;
   td {
     border-radius: 5px;
-    border: 1px solid;
-    height: 10vw;
+    box-shadow: 1px 1px 3px $color-main;
+    height: 12vw;
     text-align: center;
-    width: 10vw;
+    width: 12vw;
     position: relative;
       input {
         left: -3px;
@@ -37,72 +37,49 @@
   @extend %my_button;
 }
 
-.addAppart {
-  background-color: $color-main;
-  border-radius: 5px;
-  height: max-content;
-  left: 25vw;
-  margin: auto;
-  padding: 5px;
-  position: absolute;
-  text-align: center;
-  top: 130px;
-  width: 50vw;
-   p, span {
-     color: $color-light;
-     font-size: 0.8em;
-     padding: 4px;
-   }
-    input {
-      font-size: 0.8em;
-      height: 5vw;
-      width: 10vw;
-    }
-}
-
-.addBgrnd {
-  background-color: transparentize($color-main, 0.2);
-  height: 100%;
-  position: absolute;
-  width: 100vw;
-    table {
-      background-color: $color-main;
-      border-radius: 5px;
-      box-shadow: 20px 20px 37px #4a6da7;
-      color: $color-light;
-      margin: 150px auto;
-
-    }
-}
-
-%sample {
-  border: 1px solid $color-dark;
-  border-radius: 5px;
-  height: 10vw;
-  width: 10vw;
-}
-
-.nd {
-  @extend %sample;
-  background-color: silver;
-}
-
-.ps {
-  @extend %sample;
-  background-color: limegreen;
-}
-
-.ndf {
-  @extend %sample;
-  background-color: royalblue;
-}
-
-.no {
-  @extend %sample;
-  background-color: orange;
-}
-
-.categorical {
-  @extend %sample;
-  background-color: crimson;
-}
+// .addBgrnd {
+//   background-color: transparentize($color-main, 0.2);
+//   height: 100%;
+//   position: absolute;
+//   width: 100vw;
+//     table {
+//       background-color: $color-main;
+//       border-radius: 5px;
+//       box-shadow: 20px 20px 37px #4a6da7;
+//       color: $color-light;
+//       margin: 150px auto;
+//
+//     }
+// }
+//
+// %sample {
+//   border: 1px solid $color-dark;
+//   border-radius: 5px;
+//   height: 10vw;
+//   width: 10vw;
+// }
+//
+// .nd {
+//   @extend %sample;
+//   background-color: silver;
+// }
+//
+// .ps {
+//   @extend %sample;
+//   background-color: limegreen;
+// }
+//
+// .ndf {
+//   @extend %sample;
+//   background-color: royalblue;
+// }
+//
+// .no {
+//   @extend %sample;
+//   background-color: orange;
+// }
+//
+// .categorical {
+//   @extend %sample;
+//   background-color: crimson;
+// }

@@ -5,20 +5,10 @@
     <!-- изменить адрес -->
     <p *ngIf='terDetaiNameEdit'>
       <input [(ngModel)]='this.data.territory[this.data.terrIndex].name' type="text" name="" value="">
-      <ion-button
-        (click)="this.dataSave.createJSON(this.data.territory); terDetaiNameEdit=false"
-        class="myButton"
-        color="success"
-        fill="solid"
-        name="button"
-        shape="round"
-        size="small"
-        type="button">
-          <ion-icon name="checkmark"></ion-icon>
-      </ion-button>
     </p>
     <!-- Кнопка "Изменить адрес" -->
     <ion-button
+      *ngIf='!terDetaiNameEdit'
       (click)="terDetaiNameEdit=true"
       class='myButton'
       fill="solid"
@@ -28,26 +18,28 @@
       type="button">
         <ion-icon name="home"></ion-icon>
     </ion-button>
+    <ion-button
+      *ngIf='terDetaiNameEdit'
+      (click)="this.dataSave.createJSON(this.data.territory); terDetaiNameEdit=false"
+      class="myButton"
+      color="success"
+      fill="solid"
+      name="button"
+      shape="round"
+      size="small"
+      type="button">
+        <ion-icon name="checkmark"></ion-icon>
+    </ion-button>
   </div>
   <!-- Назначение участка -->
   <div class="terDetail__info clearfix">
     <p *ngIf='!terDetaiOwnEdit'>{{this.data.territory[this.data.terrIndex].own}}</p>
     <p *ngIf='terDetaiOwnEdit'>
       <input [(ngModel)]='this.data.territory[this.data.terrIndex].own' type="text" name="" value="">
-      <ion-button
-        (click)="this.dataSave.createJSON(this.data.territory); terDetaiOwnEdit=false"
-        class="myButton"
-        color="success"
-        fill="solid"
-        name="button"
-        shape="round"
-        size="small"
-        type="button">
-          <ion-icon name="checkmark"></ion-icon>
-      </ion-button>
     </p>
     <!-- Кнопка "Назначить участок" -->
     <ion-button
+      *ngIf='!terDetaiOwnEdit'
       (click)='terDetaiOwnEdit=true'
       class='myButton'
       fill="solid"
@@ -57,12 +49,25 @@
       type="button">
         <ion-icon name="person"></ion-icon>
     </ion-button>
+    <ion-button
+      *ngIf='terDetaiOwnEdit'
+      (click)="this.dataSave.createJSON(this.data.territory); terDetaiOwnEdit=false"
+      class="myButton"
+      color="success"
+      fill="solid"
+      name="button"
+      shape="round"
+      size="small"
+      type="button">
+        <ion-icon name="checkmark"></ion-icon>
+    </ion-button>
   </div>
 
   <div class="btnContain">
     <!-- Добавить квартиры -->
     <ion-button
-      (click)='apWin=true'
+      [disabled]="checked"
+      (click)='presentModalAdd()'
       class='myButton'
       color="success"
       fill="solid"
@@ -74,7 +79,7 @@
     </ion-button>
     <!-- Сортировать квартиры -->
     <ion-button
-      (click)='sort=true'
+      (click)='presentModalSort()'
       class='myButton'
       fill="solid"
       name="button"
@@ -121,101 +126,17 @@
 
   <!-- appartaments wrapper  -->
 
-  <table *ngIf='data.territory[data.terrIndex].appartaments' class="terDetail__apart">
+<div class="terDetail__apart">
+
+  <table *ngIf='data.territory[data.terrIndex].appartaments'>
     <tr *ngFor='let floor of data.territory[data.terrIndex].appartaments'>
       <td #indicator
       (click)='folloving(indicator.textContent)'
       *ngFor="let appart of floor"
       [ngStyle]="{'background-color': appart.color}">{{appart.num}}
-        <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(indicator.textContent)>
+      <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(indicator.textContent)>
     </td>
-    </tr>
-  </table>
+  </tr>
+</table>
 
-  <!-- add appartaments dialog -->
-  <div *ngIf='apWin' class="addAppart">
-    <p>Добавить квартиры</p>
-    <span>с </span>
-    <input #firstAppartNum type="text" name="" value="">
-    <span> по </span>
-    <input #lastAppartNum type="text" name="" value="">
-    <div class="btnContain">
-      <ion-button
-        (click)="getAppartArray(firstAppartNum.value, lastAppartNum.value); apWin=false"
-        class="myButton"
-        fill="solid"
-        name="button"
-        shape="round"
-        size="small"
-        type="button">
-          <ion-icon name="add"></ion-icon>
-      </ion-button>
-      <ion-button
-        (click)='apWin=false'
-        class="myButton"
-        color="danger"
-        fill="solid"
-        name="button"
-        shape="round"
-        size="small"
-        type="button">
-          <ion-icon name="close"></ion-icon>
-      </ion-button>
-    </div>
-  </div>
-
-  <!-- sorting dialog -->
-
-  <div *ngIf='sort' class="addAppart">
-    <p>Сколько квартир на этаже?</p>
-    <input #floorCapacity type="text" name="" value="">
-    <div class="btnContain">
-      <ion-button
-        (click) = "data.resorting(+floorCapacity.value); sort=false"
-        class="myButton"
-        color="success"
-        fill="solid"
-        name="button"
-        shape="round"
-        size="small"
-        type="button">
-          <ion-icon name="checkmark"></ion-icon>
-      </ion-button>
-      <ion-button
-        (click)='sort=false'
-        class="myButton"
-        color="danger"
-        fill="solid"
-        name="button"
-        shape="round"
-        size="small"
-        type="button">
-          <ion-icon name="close"></ion-icon>
-      </ion-button>
-    </div>
-  </div>
-
-    <div (click)='infoConverter = false' *ngIf='infoConverter' class="addBgrnd">
-      <table>
-        <tr (click)='getBgrnd($event)'>
-          <td class="bgrnd nd"></td>
-          <td class="description">Нет дома</td>
-        </tr>
-        <tr (click)='getBgrnd($event)'>
-          <td class="bgrnd ps"></td>
-          <td class="description">Повторное посещение</td>
-        </tr>
-        <tr (click)='getBgrnd($event)'>
-          <td class="bgrnd ndf"></td>
-          <td class="description">Нет домофона</td>
-        </tr>
-        <tr (click)='getBgrnd($event)'>
-          <td class="bgrnd no"></td>
-          <td class="description">Отказ</td>
-        </tr>
-        <tr (click)='getBgrnd($event)'>
-          <td class="bgrnd categorical"></td>
-          <td class="description">Категорический отказ</td>
-        </tr>
-      </table>
-    </div>
+</div>

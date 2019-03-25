@@ -20,14 +20,35 @@ $color-dark: #000000;
   padding: 0;
 }
 
+ul, li {
+  list-style: none;
+}
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  content: '';
+}
+
 .ion-page {
   justify-content: flex-start;
   width: 100vw;
 }
 
-ul, li {
-  list-style: none;
+// button css
+
+%my_button {
+  float: right;
+  margin-left: 2vw;
 }
+
+.btnContain {
+  position: relative;
+  height: 55px;
+  padding: 10px;
+}
+
+// table css
 
 table {
   border-collapse: separate;
@@ -35,27 +56,24 @@ table {
   margin: auto;
 }
 
-%my_input {
-  border: none;
-  border-bottom: 1px solid $color-dark;
+// modal windows css
+
+ion-modal {
+  --width: 90vw !important;
 }
 
-%my_button {
-  border-radius: 5px;
-  float: right;
-  font-size: 0.5em;
-  height: 7vw;
-  margin-left: 2vw;
-  width: 10vw;
+.modalAddTerr {
+  --height: 185px;
 }
 
-.btnContain {
-  position: relative;
-  height: 13vw;
-  padding: 10px;
+.modalAddAppart {
+  --height: 180px;
 }
 
-.clearBoth {
-  position: fixed;
-  top: 94%;
+.modalSortAppart {
+  --height: 170px;
+}
+
+.modalAddInfo {
+  --height: 310px;
 }

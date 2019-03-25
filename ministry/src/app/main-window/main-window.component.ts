@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router }                   from '@angular/router';
-import { StatusBar }                from '@ionic-native/status-bar/ngx';
-import { Terr }                     from '../territories';
-import { DataManagementService }    from '../data-management.service';
-import * as $                       from 'jquery';
+import { Component, OnInit, Input, ViewChild }    from '@angular/core';
+import { Router }                                 from '@angular/router';
+import { ModalController }                        from '@ionic/angular';
+import { Terr }                                   from '../territories';
+import { DataManagementService }                  from '../data-management.service';
+import { ModalAddTerrPage }                       from '../modal-add-terr/modal-add-terr.page';
+
+import * as $                                     from 'jquery';
 
 
 @Component({
@@ -13,71 +15,73 @@ import * as $                       from 'jquery';
 })
 export class MainWindowComponent implements OnInit {
 
-  arrID;
-  checked: boolean = false;
-  converter: boolean;
-  dropConv: boolean = false;
-  nameInTmpl: string;                            //Name of the territory that the user enters
-  selectOrReady:boolean;
-  showDelButton: boolean = false;
-  sizeBtn:string = 'small';
+  dropConv: boolean = false;                         //переменная для скрытия/показа кнопок сортировки
+
   title: string = 'Групповые участки собрания';
+
+  // selectOrReady:boolean;                          //эти переменные используются при наличии удаления с "чекбоксом"
+  // showDelButton: boolean = false;
+  // checked: boolean = false;
+  // arrID;
+
+  @ViewChild('slidingList') slidingList;            //обходной путь, чтобы повторное удаление происходило без перезагрузки
+                                                    // (https://github.com/ionic-team/ionic/issues/15486#issuecomment-420025772)
+
 
   constructor(private data:DataManagementService,
               private _rout: Router,
-              private statusBar: StatusBar) {  }
+              public modalController: ModalController) {  }
 
-  ngOnInit() { this.data.getTerrotories();
-                // let status bar overlay webview
-                this.statusBar.overlaysWebView(true);
-
-                // set status bar to white
-                this.statusBar.backgroundColorByHexString('#ffffff'); }
-
-
-
-  addAdress(nameInTmpl):void {
-        // this.data.newTerrName = this.nameInTmpl;
-        this.data.createNewTerr(nameInTmpl);
-      }
-
-  showChecked() {
-    (this.checked == false) ? (this.checked = true) : (this.checked = false);
-    if (this.showDelButton == true) {
-      this.showDelButton = false;
-    }
-    this.arrID = [];
-  }
+  ngOnInit() { this.data.getTerrotories(); }
 
   folloving(indicator):void {
     // получение индекса выбранного элемента из массива участков
     this.data.terrIndex = indicator;
     this.data.getIndex()
+
     // переход по ссылке
-    if (this.checked == true) {
-      return;
-    }
+    // if (this.checked == true) {                 //этот блок нужен, если есть "чекбокс"
+    //   return;
+    // }
     this._rout.navigate(['/detail/{{terr.name}}']);
   }
 
-  getDelIndex(id) {
-    let verificationIndex = this.arrID.indexOf(id);
-    if (verificationIndex !== -1) {
-      this.arrID.splice(verificationIndex, 1)
-    } else {
-      this.arrID.push(id);
-    };
-    if (this.arrID.length > 0) {
-      this.showDelButton = true
-    }  else {
-      this.showDelButton = false
-    }
+  async delete() {
+    await this.slidingList.closeSlidingItems();
   }
 
-  terrArrayCheck() {
-    if (this.data.territory.length == 0) {
-      this.showDelButton = false;
-    }
+  async presentModal() {
+    const modal = await this.modalController.create({component: ModalAddTerrPage,
+                                                      cssClass: 'modalAddTerr'});
+    return await modal.present();
   }
+
+
+  // эти функции нужны, если есть удаление участков с помощью "чекбокса"
+// showChecked() {
+  //   (this.checked == false) ? (this.checked = true) : (this.checked = false);
+  //   if (this.showDelButton == true) {
+    //     this.showDelButton = false;
+    //   }
+    //   this.arrID = [];
+    // }
+  // getDelIndex(id) {
+  //   let verificationIndex = this.arrID.indexOf(id);
+  //   if (verificationIndex !== -1) {
+  //     this.arrID.splice(verificationIndex, 1)
+  //   } else {
+  //     this.arrID.push(id);
+  //   };
+  //   if (this.arrID.length > 0) {
+  //     this.showDelButton = true
+  //   }  else {
+  //     this.showDelButton = false
+  //   }
+  // }
+  // terrArrayCheck() {
+  //   if (this.data.territory.length == 0) {
+  //     this.showDelButton = false;
+  //   }
+  // }
 
 }

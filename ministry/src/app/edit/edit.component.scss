@@ -1,5 +1,18 @@
 @import '../../global';
 
+.topHeader {
+  background-color: $color-main;
+}
+.MainTitle {
+  color: $color-light;
+  line-height: 1.5em;
+  margin: auto;
+  width: max-content;
+    p.appartNum {
+      font-size: 0.8em;
+    }
+}
+
 .apartEdit {
   padding: 10px;
     textarea {
@@ -7,22 +20,11 @@
       box-shadow: 3px 3px 10px $color-main;
       display: block;
       font-size: 1em;
-      height: 40vw;
-      margin: 5px auto;
+      height: 30vw;
+      margin: 5px auto 15px auto;
       padding: 10px;
       width: 94%;
     }
-}
-
-.sex {
-  font-size: 1em;
-  height: 10vw;
-  width: 30vw;
-}
-.age {
-  font-size: 1em;
-  height: 10vw;
-  width: 15vw;
 }
 
 .infoTenant {
@@ -33,11 +35,6 @@
   padding: 10px;
 }
 
-  .infoTenant__item {
-    border-radius: 2px;
-    border: 1px solid $color-main;
-    margin-bottom: 3px;
-  }
   .infoTenant__date {
     color: lighten($color-dark, 50%);
     font-size: 0.5em;

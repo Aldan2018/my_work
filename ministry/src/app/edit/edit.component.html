@@ -1,27 +1,50 @@
+<ion-header class="topHeader">
+  <ion-title class='MainTitle'>
+    <p>
+      {{this.data.territory[this.data.terrIndex].name}}
+    </p>
+    <p class="appartNum">квартира № {{appartNum}}</p>
+  </ion-title>
+</ion-header>
 
-<div class="apartEdit">
+<ion-content>
 
-  <p>{{this.data.territory[this.data.terrIndex].name}}</p>
+  <div class="apartEdit">
 
-  <textarea #description class="apartEdit__info" placeholder="Информация о посещении"></textarea>
-
-  <div class="btnContain">
-    <ion-button
-      (click)="getInfo(description.value); description.value=''"
-      class="btn btn-primary myButton" type="button"
-      color='success'
+    <textarea #description placeholder="Информация о посещении"></textarea>
+    <div class="btnContain">
+      <ion-button
+        (click)="getInfo(description.value); description.value=''"
+        color='success'
+        class='myButton'
+        fill="solid"
+        shape="round">
+          <ion-icon name="add"></ion-icon>
+      </ion-button>
+      <ion-button
+      (click)="presentModalAddInfo()"
+      class='myButton'
       fill="solid"
-      name="button"
-      shape="round"
-      size="small">
-      <ion-icon name="add"></ion-icon>
-  </ion-button>
+      shape="round">
+      <ion-icon name="swap"></ion-icon>
+    </ion-button>
   </div>
 
-  <ul *ngIf='converter' class="infoTenant">
-    <li class="infoTenant__item" *ngFor = 'let info of info'>
-      <p class = 'infoTenant__date'>{{this.info.date}}</p>
-      <p class = 'infoTenant__desc'>{{this.info.description}}</p>
-    </li>
-  </ul>
+  <ion-list *ngIf='converter' #slidingList>
+    <ion-item-sliding *ngFor = "let info of info; let id = index">
+      <ion-item lines="full">
+        <ion-text>
+          <ion-note>{{this.info.date}}</ion-note>
+          <p>{{this.info.description}}</p>
+        </ion-text>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(); this.data.deleteDescription(id)">
+          <ion-icon size='large' name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </div>
+
+</ion-content>

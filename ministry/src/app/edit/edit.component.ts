@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Location }                 from '@angular/common';
-import { DataManagementService }    from '../data-management.service';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Location }                            from '@angular/common';
+import { ModalController }                     from '@ionic/angular';
+
+import { DataManagementService }               from '../data-management.service';
+import { ModalAddInfoPage }                    from '../modal-add-info/modal-add-info.page';
 
 @Component({
   selector: 'app-edit',
@@ -12,18 +15,24 @@ export class EditComponent implements OnInit {
   description:string;
   info:string;
   converter:boolean;
-  temporaryInfo:string;
-  @Input() indicator;
+  appartNum: string;
+  // temporaryInfo:string;
+  // @Input() indicator;
+
+  @ViewChild('slidingList') slidingList;
 
   constructor(private location: Location,
-              private data: DataManagementService) { }
+              private data: DataManagementService,
+              public modalController: ModalController) { }
+
 
   ngOnInit() { this.data.getTerrotories(), this.showInfo()  }
 
   showInfo() {
-    let c = this.data.territory[this.data.terrIndex].appartaments;
-    let m = [].concat.apply([], c);
-    this.info = m[this.data.appIndex].description;
+    let terr = this.data.territory[this.data.terrIndex].appartaments;
+    let merged = [].concat.apply([], terr);
+    this.info = merged[this.data.appIndex].description;
+    this.appartNum = merged[this.data.appIndex].num;
     if (this.info) {
       this.converter = true;
   }
@@ -35,8 +44,14 @@ export class EditComponent implements OnInit {
     this.showInfo();
   }
 
-  goBack():void {
-    this.location.back();
+  async presentModalAddInfo() {
+    const modalInfo = await this.modalController.create({component: ModalAddInfoPage,
+                                                          cssClass: 'modalAddInfo'});
+    return await modalInfo.present();
+  }
+
+  async delete() {
+    await this.slidingList.closeSlidingItems();
   }
 
 }

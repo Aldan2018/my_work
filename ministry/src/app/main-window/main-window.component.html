@@ -1,33 +1,28 @@
-<header>
-  <h1>{{title}}</h1>
-</header>
+<ion-header class="topHeader">
+    <ion-title class='MainTitle'>{{title}}</ion-title>
+</ion-header>
 
 <!-- button block -->
 <div class="btnContain">
   <ion-button
     (click)='dropConv = !dropConv'
-    [size]=sizeBtn
-    aria-expanded="false"
-    aria-haspopup="true"
     class="sortBy"
     color="secondary"
-    data-toggle="dropdown"
     fill="solid"
     shape="round"
     type="button">
-      <ion-icon name="list"></ion-icon>
+      <ion-icon name="list" size='large'></ion-icon>
   </ion-button>
   <ion-button
-    (click)='converter = true'
+    (click)="presentModal()"
     [disabled]='checked'
-    [size]=sizeBtn
     class="myButton"
     fill="solid"
     shape="round"
     type="button">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="add" size='large'></ion-icon>
   </ion-button>
-  <ion-button
+  <!-- <ion-button
     (click)="data.deleteItem(arrID); terrArrayCheck(); this.arrID = []"
     [disabled] = '!showDelButton'
     [size]=sizeBtn
@@ -57,10 +52,9 @@
     shape="round"
     type="button">
       <ion-icon name="checkmark"></ion-icon>
-  </ion-button>
+  </ion-button> -->
   <ion-button
     (click)='this.data.sortingByAdres(); dropConv = false'
-    [size]=sizeBtn
     *ngIf='dropConv'
     class="sortBy"
     color="tertiary"
@@ -70,7 +64,6 @@
   </ion-button>
   <ion-button
     (click)='this.data.sortingByPct(); dropConv = false'
-    [size]=sizeBtn
     *ngIf='dropConv'
     class="sortBy"
     color="tertiary"
@@ -82,53 +75,36 @@
 
 <!-- wrapper territories -->
 
-<ul *ngIf='data.territory' class="terContain">
-  <li class="terItem"
-      *ngFor="let terr of data.territory; let id = index"
-      (click)="folloving(id)"
-      class="terItem">
-    <input *ngIf='checked' type="checkbox" name="" value="" (change) = getDelIndex(id)>
-    <p class="terItem__name" #indicator>
-      {{terr.name}}
-    </p>
-    <p class="terItem__pct" class="terItem__pct">
-      {{terr.pct}}%
-    </p>
-    <p class="terItem__own">
-      {{terr.own}}
-    </p>
-  </li>
-</ul>
-<!-- modal window -->
-
-<div *ngIf='converter'>
-  <div class="modalAddTerritory">
-    <div class="modalAddTerritory__dialog">
-      <p>Название участка</p>
-      <input #nameInTmpl type="text" name="" value="" placeholder="Название участка">
-      <p class="modalAddTerritory__dialog_p-small">Например: пр. Юбилейный, 12, п. 1</p>
-      <div class="btnContain">
-        <ion-button
-          (click)="addAdress(nameInTmpl.value); nameInTmpl.value = ''"
-          [size]=sizeBtn
-          class="myButton"
-          color='success'
-          fill="solid"
-          shape="round"
-          type="button">
-            <ion-icon name="checkmark"></ion-icon>
-        </ion-button>
-        <ion-button
-          (click)='converter=false'
-          [size]=sizeBtn
-          class="myButton"
-          color='danger'
-          fill="solid"
-          shape="round"
-          type="button">
-            <ion-icon name="close"></ion-icon>
-        </ion-button>
-      </div>
-    </div>
-  </div>
-</div>
+<ion-list *ngIf='data.territory' class="terContain" #slidingList>
+  <ion-item-sliding *ngFor="let terr of data.territory; let id = index">
+    <ion-item (click)="folloving(id)"
+              lines="full">
+              <!-- text-wrap> -->
+      <!-- <ion-checkbox slot="start"
+                    *ngIf='checked'
+                    (ionChange) = getDelIndex(id)>
+      </ion-checkbox> -->
+      <!-- <ion-label> -->
+      <ion-icon class="terIcon" name="home" slot='start'></ion-icon>
+      <ion-text>
+        <h6 class="terText">
+          {{terr.name}}
+        </h6>
+        <ion-note>
+          {{terr.own}}
+        </ion-note>
+      </ion-text>
+      <ion-text slot='end'>
+        <p>
+          {{terr.pct}} %
+        </p>
+      </ion-text>
+      <!-- </ion-label> -->
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="delete(); this.data.deleteItem(id)">
+        <ion-icon size='large' name="trash"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>

@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Injectable } from '@angular/core';
-import * as _ from "lodash";
-import { Terr, Appart, Descr, Indexes } from './territories';
-import { TerritoriesCongService }   from './territories-cong.service';
-import { DataSaveService } from './data-save.service';
+import { Component, OnInit, Input }       from '@angular/core';
+import { Injectable }                     from '@angular/core';
+import * as _                             from "lodash";
+import { Terr, Appart, Descr, Indexes }   from './territories';
+import { TerritoriesCongService }         from './territories-cong.service';
+import { DataSaveService }                from './data-save.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,10 +27,12 @@ export class DataManagementService {
 // sorting
 sortingByAdres() {
   this.territory = _.sortBy(this.territory, ['name', 'own']);
+  this.dataSave.createJSON(this.territory);
 }
 
 sortingByPct() {
   this.territory = _.sortBy(this.territory, ['pct', 'own']);
+  this.dataSave.createJSON(this.territory);
 }
 // territory
 
@@ -86,12 +88,12 @@ getAppartArray(firstAppartNum, lastAppartNum):void {
     this.territory[this.terrIndex].appartaments = [];
 
   for (let i=firstAppartNum; i<=lastAppartNum; i++) {
-    this.territory[this.terrIndex].appartaments.push(new Appart(i, '#c5c6c4'));
+    this.territory[this.terrIndex].appartaments.push(new Appart(i, '#fff'));
   }
     } else {
       this.territory[this.terrIndex].appartaments = [].concat.apply([], this.territory[this.terrIndex].appartaments);
       for (let i=firstAppartNum; i<=lastAppartNum; i++) {
-        this.territory[this.terrIndex].appartaments.push(new Appart(i, '#c5c6c4'));
+        this.territory[this.terrIndex].appartaments.push(new Appart(i, '#fff'));
         this.territory[this.terrIndex].appartaments = _.sortBy(this.territory[this.terrIndex].appartaments, 'num');
     }
   }
@@ -140,8 +142,8 @@ resorting(floorCapacity) {
 let counter = 0;
   for (i=0; i<merged.length; i++) {
     let color:string = merged[i].color;
-    if (color !== '#c5c6c4' && color !== '#516ac6'){
-      if (color !== 'rgb(192, 192, 192)' && color !== 'rgb(65, 105, 225)') {
+    if (color !== '#fff' && color !== '#516ac6'){
+      if (color !== 'rgb(255, 255, 255)' && color !== 'rgb(65, 105, 225)') {
         counter++
       }
     }
@@ -177,13 +179,20 @@ addInfoAboutAppart(date, description):void {
 }
 
 //удаление участков
-deleteItem(arrID) {
-  arrID.sort(function(a, b) {return b-a});
-  for (let i = 0; i<arrID.length; i++) {
-    this.territory.splice(arrID[i], 1);
-  }
+
+deleteItem(id) {
+  this.territory.splice(id, 1);
   this.dataSave.createJSON(this.territory);
 }
+
+// этот код работает, если применяется удаление нескольких участков, выбранных через чекбокс
+// deleteItem(arrID) {
+//   arrID.sort(function(a, b) {return b-a});
+//   for (let i = 0; i<arrID.length; i++) {
+//     this.territory.splice(arrID[i], 1);
+//   }
+//   this.dataSave.createJSON(this.territory);
+// } завершение кода "чекбокс"
 
 //удаление квартир
 deleteAppart(arrID) {
@@ -198,6 +207,15 @@ deleteAppart(arrID) {
   this.resorting(floorCapacity);
 }
 
+deleteDescription(id) {
+  let floorCapacity = this.territory[this.terrIndex].appartaments[0].length;
+
+  let merged = [].concat.apply([], this.territory[this.terrIndex].appartaments);
+  merged[this.appIndex].description.splice(id, 1);
+
+  this.resorting(floorCapacity);
+}
+
 getDate() {
   let now = new Date();
   let dd = now.getDate();
@@ -206,7 +224,7 @@ getDate() {
   let HH = now.getHours();
   let MM = now.getMinutes()
 
-  let today = mm + '/' + dd + '/' + yyyy + '; ' + HH + ':' + MM;
+  let today = dd + '.' + mm + '.' + yyyy + '; ' + HH + ':' + MM;
   return today;
 }
 
