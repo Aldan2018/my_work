@@ -23,6 +23,22 @@
 <body>
   <app-root></app-root>
 
+  <!-- firebase -->
+
+  <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBSSNfANaBmRHddVEodi54Qm2WCsFCY9Dg",
+      authDomain: "territories-74c49.firebaseapp.com",
+      databaseURL: "https://territories-74c49.firebaseio.com",
+      projectId: "territories-74c49",
+      storageBucket: "territories-74c49.appspot.com",
+      messagingSenderId: "424330858494"
+    };
+    firebase.initializeApp(config);
+  </script>
+  
   <!-- Optional JavaScript -->
    <!-- jQuery first, then Popper.js -->
    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

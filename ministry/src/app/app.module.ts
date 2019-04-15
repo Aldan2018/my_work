@@ -2,6 +2,7 @@ import { NgModule }                            from '@angular/core';
 import { BrowserModule }                       from '@angular/platform-browser';
 import { RouteReuseStrategy }                  from '@angular/router';
 import { FormsModule }                         from '@angular/forms'; // <-- NgModel lives her
+import { HttpClientModule }                    from '@angular/common/http'
 
 import { IonicModule, IonicRouteStrategy }     from '@ionic/angular';
 import { SplashScreen }                        from '@ionic-native/splash-screen/ngx';
@@ -20,6 +21,8 @@ import { ModalAddInfoPage }                    from './modal-add-info/modal-add-
 
 import { DataManagementService }               from './data-management.service';
 import { DataSaveService }                     from './data-save.service';
+import { DropboxService }                      from './dropbox.service';
+import { DropboxComponent }                    from './dropbox/dropbox.component';
 
 @NgModule({
   declarations: [
@@ -30,13 +33,15 @@ import { DataSaveService }                     from './data-save.service';
     ModalAddTerrPage,
     ModalAddAppartPage,
     ModalAddInfoPage,
-    ModalSortAppartPage
+    ModalSortAppartPage,
+    DropboxComponent
   ],
   entryComponents: [ModalAddTerrPage, ModalAddAppartPage, ModalSortAppartPage, ModalAddInfoPage],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [
     DataManagementService,
     DataSaveService,
+    DropboxService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

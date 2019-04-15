@@ -2,7 +2,10 @@ import { Component, OnInit, Input, ViewChild }    from '@angular/core';
 import { Router }                                 from '@angular/router';
 import { ModalController }                        from '@ionic/angular';
 import { Terr }                                   from '../territories';
+
 import { DataManagementService }                  from '../data-management.service';
+import { DropboxService }                         from '../dropbox.service';
+
 import { ModalAddTerrPage }                       from '../modal-add-terr/modal-add-terr.page';
 
 import * as $                                     from 'jquery';
@@ -30,7 +33,8 @@ export class MainWindowComponent implements OnInit {
 
   constructor(private data:DataManagementService,
               private _rout: Router,
-              public modalController: ModalController) {  }
+              public modalController: ModalController,
+              public dbxServ: DropboxService) {  }
 
   ngOnInit() { this.data.getTerrotories(); }
 
@@ -44,6 +48,10 @@ export class MainWindowComponent implements OnInit {
     //   return;
     // }
     this._rout.navigate(['/detail/{{terr.name}}']);
+  }
+
+  goToDropbox() {
+    this._rout.navigate(['dropbox']);
   }
 
   async delete() {

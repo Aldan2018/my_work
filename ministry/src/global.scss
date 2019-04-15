@@ -35,6 +35,19 @@ ul, li {
   width: 100vw;
 }
 
+// headers
+
+.topHeader {
+  background-color: $color-main;
+}
+.MainTitle {
+  color: $color-light;
+  font-size: 1.5em;
+  line-height: 3em;
+  margin: auto;
+  width: max-content;
+}
+
 // button css
 
 %my_button {
